@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación de Movimiento</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Simulación de Movimiento</h1>
+        <h3 id="timer">0 segundos</h3>
+
+        <div id="scene">
+            <div id="object"></div>
+        </div>
+
+        <div class="charts">
+            <div class="chart-item">
+                <canvas id="positionCanvas" width="400" height="200"></canvas>
+                <p>Distancia (m)</p>
+            </div>
+            <div class="chart-item">
+                <canvas id="velocityCanvas" width="400" height="200"></canvas>
+                <p>Velocidad (m/s)</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <label for="velocity">Velocidad:</label>
+            <input type="range" id="velocity" min="-10" max="10" step="1" value="0">
+            <span id="velocityDisplay">0 m/s</span>
+        </div>
+
+        <div class="distance-control">
+            <label for="distance">Distancia máxima (m):</label>
+            <input type="number" id="distance" value="10" min="1">
+        </div>
+
+        <!-- Botones de control -->
+        <button id="startButton">Iniciar</button>
+        <button id="stopButton">Parar</button>  <!-- Botón de "Parar" -->
+        <button id="resetButton">Reiniciar</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
