@@ -14,7 +14,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 90%; /* Cambiado a 90% para mejor adaptabilidad */
+    width: 90%; /* Cambiado a 90% para mejor adaptabilidad. */
     max-width: 820px; /* Mantiene un ancho máximo */
 }
 
