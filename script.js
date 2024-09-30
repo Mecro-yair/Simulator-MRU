@@ -7,7 +7,6 @@ const resetButton = document.getElementById('resetButton');
 const timerDisplay = document.getElementById('timer');
 const velocitySlider = document.getElementById('velocity');
 const velocityDisplay = document.getElementById('velocityDisplay');
-const object = document.getElementById('object');
 const distanceInput = document.getElementById('distance');
 
 let time = 0; // Tiempo inicial
@@ -21,8 +20,8 @@ const velocityData = [];
 
 // Función para dibujar los ejes de abscisas y ordenadas en el canvas
 function drawAxes(ctx, labelX, labelY) {
-    ctx.clearRect(0, 0, 600, 300); // Aumentar el espacio para las gráficas
-    
+    ctx.clearRect(0, 0, 600, 300); // Limpiar el canvas antes de dibujar
+
     // Eje X
     ctx.beginPath();
     ctx.moveTo(50, 150); // Cambiar posición inicial
@@ -84,19 +83,20 @@ function drawGraph(ctx, data, color) {
 
 // Actualizar la posición del objeto en el contenedor
 function updateObjectPosition() {
-    const sceneWidth = 600; // Ancho del contenedor aumentado
-    const objectWidth = object.offsetWidth; // Ancho del objeto (cuadro rojo)
+    const sceneWidth = 600; // Ancho del contenedor
+    const objectWidth = document.getElementById('movingObject').offsetWidth; // Ancho de la imagen
     const maxLeft = sceneWidth - objectWidth; // Límite a la derecha
 
     // Calcular la posición como una fracción del ancho máximo
-    object.style.left = `${Math.min((position / maxPosition) * maxLeft, maxLeft)}px`;
+    const object = document.getElementById('object');
+    object.style.left = `${(position / maxPosition) * maxLeft}px`;
 }
 
+// Función para actualizar la simulación
 function updateSimulation() {
-    // Sincronización de tiempo y posición
     timerDisplay.textContent = `${time} segundos`;
-    
-    // Incremento de la posición basado en la velocidad, solo si el tiempo es mayor que 0
+
+    // Incremento de la posición basado en la velocidad
     if (time > 0) {
         position += currentVelocity; 
     }
@@ -126,6 +126,7 @@ function updateSimulation() {
     time++; // Incrementa el tiempo
 }
 
+// Iniciar la simulación
 startButton.addEventListener('click', () => {
     maxPosition = parseFloat(distanceInput.value); // Actualiza la distancia máxima al inicio
 
@@ -135,36 +136,27 @@ startButton.addEventListener('click', () => {
     positionData.length = 0; // Limpiar datos de posición
     velocityData.length = 0; // Limpiar datos de velocidad
 
-    if (interval) clearInterval(interval);
-    
-    interval = setInterval(() => {
-        if (time < totalTime) {
-            updateSimulation(); // Actualizar simulación
-        } else {
-            clearInterval(interval); // Detener al alcanzar el tiempo total
-        }
-    }, 1000);
+    updateObjectPosition(); // Actualiza la posición del objeto en el inicio
+
+    // Iniciar la simulación
+    interval = setInterval(updateSimulation, 1000); // Llama a la función cada segundo
 });
 
+// Reiniciar la simulación
 resetButton.addEventListener('click', () => {
     clearInterval(interval);
-    time = 0; // Reinicia el tiempo a 0
-    position = 0; // Reinicia la posición a 0
-    positionData.length = 0; // Limpia los datos de posición
-    velocityData.length = 0; // Limpia los datos de velocidad
-    timerDisplay.textContent = '0 segundos'; // Actualiza la visualización del temporizador
-    updateObjectPosition(); // Actualiza la posición del objeto
-    ctxPosition.clearRect(0, 0, 600, 300); // Limpia el canvas de posición
-    ctxVelocity.clearRect(0, 0, 600, 300); // Limpia el canvas de velocidad
-    drawAxes(ctxPosition, 'Tiempo (s)', 'Distancia (m)'); // Dibuja los ejes
-    drawAxes(ctxVelocity, 'Tiempo (s)', 'Velocidad (m/s)'); // Dibuja los ejes
+    time = 0;
+    position = 0;
+    positionData.length = 0;
+    velocityData.length = 0;
+    updateObjectPosition();
+    timerDisplay.textContent = '0 segundos';
+    ctxPosition.clearRect(0, 0, 600, 300); // Limpiar el canvas de posición
+    ctxVelocity.clearRect(0, 0, 600, 300); // Limpiar el canvas de velocidad
 });
 
-velocitySlider.addEventListener('input', (e) => {
-    currentVelocity = parseInt(e.target.value); // Actualiza la velocidad
+// Controlar el movimiento del objeto según la velocidad
+velocitySlider.addEventListener('input', (event) => {
+    currentVelocity = parseFloat(event.target.value);
     velocityDisplay.textContent = `${currentVelocity} m/s`; // Muestra la velocidad actual
 });
-
-// Inicializa con los ejes dibujados
-drawAxes(ctxPosition, 'Tiempo (s)', 'Distancia (m)');
-drawAxes(ctxVelocity, 'Tiempo (s)', 'Velocidad (m/s)');

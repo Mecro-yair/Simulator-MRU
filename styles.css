@@ -1,57 +1,66 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    background-color: #f4f4f4;
+    text-align: center;
 }
 
 .container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 90%; /* Cambiado a 90% para mejor adaptabilidad. */
-    max-width: 820px; /* Mantiene un ancho máximo */
+    width: 800px;
+    margin: 0 auto;
 }
 
 #scene {
-    position: relative; /* Necesario para el posicionamiento del objeto */
-    width: 100%; /* Asegura que el contenedor ocupe el 100% */
-    height: 50px; /* Altura fija */
-    background-color: #ccf; 
-    border: 1px solid #000; 
-    margin: 20px 0;
-    overflow: hidden; /* Oculta el contenido que se sale del contenedor */
+    width: 600px;
+    height: 100px; /* Cambiado para tener más espacio */
+    background-color: lightblue;
+    margin: 20px auto;
+    position: relative; /* Necesario para posicionar el objeto */
+}
+
+#scene::before {
+    content: ""; /* Necesario para crear el pseudo-elemento */
+    position: absolute;
+    top: 50%; /* Centrar la línea horizontal */
+    left: 0;
+    right: 0; /* Se extiende a ambos lados */
+    height: 7px; /* Altura de la línea negra */
+    background-color: black; /* Color de la línea negra */
+    transform: translateY(-50%); /* Ajustar el centro de la línea */
+}
+
+#scene::after {
+    content: ""; /* Necesario para crear el pseudo-elemento */
+    position: absolute;
+    top: 50%; /* Centrar los puntos en medio de la línea negra */
+    left: 0;
+    right: 0; /* Se extiende a ambos lados */
+    height: 1px; /* Altura de la línea de puntos */
+    background: repeating-linear-gradient(
+        to right,
+        white,
+        white 5px, /* Color blanco */
+        transparent 5px,
+        transparent 10px /* Espacio entre puntos */
+    );
+    transform: translateY(-50%); /* Ajustar el centro de los puntos */
 }
 
 #object {
-    width: 30px; /* Ancho fijo del objeto */
-    height: 30px; /* Alto fijo del objeto */
-    background-color: red; 
     position: absolute; /* Mantiene la posición absoluta */
     left: 0; /* Posición inicial desde la izquierda */
-    top: 10px; /* Margen superior */
-    transition: left 0.2s; /* Transición suave al mover */
+    top: 32px; /* Ajustado para bajar el objeto verticalmente */
+    z-index: 10; /* Asegura que el objeto esté encima */
+}
+
+#movingObject {
+    width: 30px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 30px; /* Ajusta el tamaño de la imagen según sea necesario */
 }
 
 .controls {
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    gap: 10px; 
-    margin: 20px 0; 
+    margin: 20px 0;
 }
 
-@media (max-width: 600px) {
-    #scene {
-        height: 60px; /* Aumentar la altura del contenedor en móviles */
-    }
-    #object {
-        width: 25px; /* Ajustar el tamaño del objeto para móviles */
-        height: 25px; /* Ajustar el tamaño del objeto para móviles */
-    }
+canvas {
+    border: 1px solid #ccc;
 }
